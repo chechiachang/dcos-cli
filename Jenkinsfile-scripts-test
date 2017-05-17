@@ -2,33 +2,6 @@
 
 pipeline {
   agent { label 'mesos' }
-  // ghprb-plugin is not currently compatible with the declarative pipeline syntax
-  /*
-  scm {
-    git {
-      remote {
-        github('test-owner/test-project')
-        refspec('+refs/pull/*:refs/remotes/origin/pr/*')
-      }
-      branch('${sha1}')
-    }
-  }
-  triggers {
-    githubPullRequest {
-      orgWhitelist(['dcos', 'mesosphere'])
-      allowMembersOfWhitelistedOrgsAsAdmin()
-      cron('H/5 * * * *')
-      triggerPhrase('ok to test')
-      useGitHubHooks()
-      permitAll()
-      extensions {
-        commitStatus {
-          context('scripts-test')
-        }
-      }
-    }
-  }
-  */
   parameters {
     string name: 'DCOS_CHANNEL', description: 'DC/OS Release Channel', defaultValue: 'testing/master'
     string name: 'CF_TEMPLATE_URL', description: 'CloudFormation Template URL', defaultValue: ''
@@ -41,6 +14,7 @@ pipeline {
     CF_TEMPLATE_NAME = "${params.CF_TEMPLATE_NAME}"
     CLUSTER_NAME = "DCOSCLI-SCRIPTS-TEST-${env.BUILD_NUMBER}"
   }
+
   stages {
     stage('Build Docker Image') {
       agent { label 'mesos' }
