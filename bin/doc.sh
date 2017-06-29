@@ -1,9 +1,10 @@
-#!/bin/bash -e
+#!/bin/bash
 
-BASEDIR=`dirname $0`/..
+set -e
 
-cd $BASEDIR
-source $BASEDIR/env/bin/activate
-echo "Virtualenv activated."
+CURRDIR=$(dirname "${0}")
+source ${CURRDIR}/common.sh
 
-sphinx-build -W -b html pydoc pydoc/_build
+echo "Building documentation..."
+${BUILDDIR}/${VENV}/${BIN}/sphinx-build${EXE} -W -b html pydoc pydoc/_build
+echo "Documentation built."
